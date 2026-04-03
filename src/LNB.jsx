@@ -147,7 +147,12 @@ export default function LNB() {
         </div>
       </header>
 
-      <main>
+      <main style={{ position: "relative" }}>
+        {/* Ambient Glowing Orbs */}
+        <div style={{ position: "absolute", top: "10%", left: "-10%", width: "40vw", height: "40vw", background: "radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, transparent 60%)", borderRadius: "50%", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "40%", right: "-10%", width: "50vw", height: "50vw", background: "radial-gradient(circle, rgba(29, 77, 138, 0.15) 0%, transparent 60%)", borderRadius: "50%", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "10%", left: "10%", width: "60vw", height: "60vw", background: "radial-gradient(circle, rgba(0, 229, 255, 0.05) 0%, transparent 60%)", borderRadius: "50%", pointerEvents: "none" }} />
+        
         {/* ═══════ HERO (FINTECH EDGE) ═══════ */}
         <section id="home" style={{ paddingTop: "160px", paddingBottom: "100px", minHeight: "100vh", display: "flex", alignItems: "center", position: "relative", overflow: "hidden" }}>
           <div style={{ position: "absolute", inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '40px 40px', opacity: 0.5 }} />
@@ -216,7 +221,7 @@ export default function LNB() {
         </section>
 
         {/* ═══════ SERVICES (BENTO GRID WITH 3D TILT & NO ORPHAN) ═══════ */}
-        <section id="services" style={{ background: "var(--navy)" }}>
+        <section id="services" style={{ background: "transparent", position: "relative", zIndex: 10, marginTop: "-80px" }}>
           <div className="container">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} style={{ textAlign: "center", maxWidth: 600, margin: "0 auto 80px" }}>
               <h2 style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 500, marginBottom: 16 }}>Financial Infrastructure</h2>
@@ -234,7 +239,21 @@ export default function LNB() {
                     }}
                   />
                   {s.highlight && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, transparent, #00e5ff, transparent)" }} />}
-                  <div style={{ width: 56, height: 56, borderRadius: 16, background: s.highlight ? "rgba(0,229,255,0.1)" : "rgba(255,255,255,0.04)", display: "flex", alignItems: "center", justifyContent: "center", color: s.highlight ? "#00e5ff" : "#fff", marginBottom: 24 }}>
+                  
+                  {/* Visual Differentiators */}
+                  {s.id === 'treasury' && (
+                    <svg style={{ position: 'absolute', bottom: 0, right: 0, width: '100%', height: '50%', opacity: 0.1, pointerEvents: 'none' }} viewBox="0 0 100 50" preserveAspectRatio="none">
+                      <path d="M0,50 L0,30 Q10,40 20,20 T40,10 T60,30 T80,10 L100,20 L100,50 Z" fill="#00e5ff" />
+                    </svg>
+                  )}
+                  {s.id === 'cre' && (
+                    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at bottom right, rgba(255,255,255,0.03) 0%, transparent 60%)', pointerEvents: 'none' }} />
+                  )}
+                  {s.id === 'concierge' && (
+                    <motion.div animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }} transition={{ repeat: Infinity, duration: 2 }} style={{ position: 'absolute', top: 40, left: 40, width: 56, height: 56, borderRadius: '16px', border: '1px solid #00e5ff', pointerEvents: 'none' }} />
+                  )}
+
+                  <div style={{ width: 56, height: 56, borderRadius: 16, background: s.highlight ? "rgba(0,229,255,0.1)" : "rgba(255,255,255,0.04)", display: "flex", alignItems: "center", justifyContent: "center", color: s.highlight ? "#00e5ff" : "#fff", marginBottom: 24, position: 'relative', zIndex: 2 }}>
                     <s.icon size={28} strokeWidth={1.5} />
                   </div>
                   <h3 style={{ fontSize: 24, fontWeight: 500, marginBottom: 12 }}>{s.title}</h3>
@@ -248,31 +267,50 @@ export default function LNB() {
           </div>
         </section>
 
-        {/* ═══════ LOCATIONS ═══════ */}
-        <section id="locations" style={{ background: "var(--navy-mid)", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-          <div className="container">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} style={{ marginBottom: 64 }}>
+        {/* ═══════ LOCATIONS (INTERACTIVE MAP LAYOUT) ═══════ */}
+        <section id="locations" style={{ background: "transparent", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+          <div className="container" style={{ maxWidth: 1400, padding: 0 }}>
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} style={{ marginBottom: 64, padding: "0 5%" }}>
               <h2 style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 500 }}>Texas Footprint</h2>
             </motion.div>
 
-            <div className="grid-4">
-              {LOCS.map((l, i) => (
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} transition={{ delay: i * 0.05 }} key={i} className="bento-card hover-lift" style={{ padding: 32, borderRadius: 20, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", color: "#fff" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
-                    <h3 style={{ fontSize: 22, fontWeight: 500 }}>{l.city}</h3>
-                    {l.flag && <span style={{ fontSize: 10, letterSpacing: 1, textTransform: "uppercase", background: "rgba(0, 229, 255, 0.1)", color: "#00e5ff", padding: "4px 10px", borderRadius: 20, fontWeight: 700 }}>Flagship</span>}
-                    {l.lpo && <span style={{ fontSize: 10, letterSpacing: 1, textTransform: "uppercase", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)", padding: "4px 10px", borderRadius: 20, fontWeight: 700 }}>LPO</span>}
-                  </div>
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 16, color: "rgba(255,255,255,0.6)" }}>
-                    <MapPin size={20} strokeWidth={1.5} style={{ flexShrink: 0, marginTop: 2 }} />
-                    <p style={{ fontSize: 15, lineHeight: 1.5 }}>{l.addr}<br/>{l.city}, {l.st} {l.zip}</p>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, color: "#fff" }}>
-                    <Phone size={18} strokeWidth={1.5} />
-                    <a href={`tel:${l.ph.replace(/\D/g,"")}`} style={{ fontSize: 15, textDecoration: "none", color: "inherit", fontWeight: 600 }}>{l.ph}</a>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="grid-2" style={{ gap: 0, alignItems: 'stretch' }}>
+              {/* Left Side: Locations Scroller */}
+              <div style={{ padding: "0 5% 5% 5%", maxHeight: "600px", overflowY: "auto", display: "flex", flexDirection: "column", gap: 16, scrollbarWidth: "thin" }}>
+                {LOCS.map((l, i) => (
+                  <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} transition={{ delay: i * 0.05 }} key={i} className="hover-lift" style={{ padding: "24px 32px", borderRadius: 20, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", color: "#fff", cursor: "pointer", position: "relative", overflow: "hidden" }}>
+                    <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 4, background: l.flag ? "#00e5ff" : "transparent" }} />
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <h3 style={{ fontSize: 20, fontWeight: 500 }}>{l.city}</h3>
+                      {l.flag && <span style={{ fontSize: 10, letterSpacing: 1, textTransform: "uppercase", background: "rgba(0, 229, 255, 0.1)", color: "#00e5ff", padding: "4px 10px", borderRadius: 20, fontWeight: 700 }}>Flagship</span>}
+                      {l.lpo && <span style={{ fontSize: 10, letterSpacing: 1, textTransform: "uppercase", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)", padding: "4px 10px", borderRadius: 20, fontWeight: 700 }}>LPO</span>}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, color: "rgba(255,255,255,0.6)" }}>
+                      <p style={{ fontSize: 14 }}>{l.addr}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Right Side: Map Visualizer */}
+              <div style={{ position: "relative", minHeight: "400px", background: "rgba(0,0,0,0.2)", borderRadius: "32px 0 0 32px", border: "1px solid rgba(255,255,255,0.05)", borderRight: "none", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {/* Abstract Line Grid Background */}
+                <div style={{ position: "absolute", inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '40px 40px', opacity: 0.2 }} />
+                
+                {/* Stylized Texas Map Silhouette */}
+                <svg viewBox="0 0 400 400" style={{ width: "80%", height: "80%", opacity: 0.1, pointerEvents: "none" }}>
+                  <path d="M 200,50 L 300,100 L 350,200 L 300,350 L 150,380 L 50,250 L 50,150 Z" fill="#00e5ff" />
+                </svg>
+
+                {/* Simulated Radar Blips */}
+                <motion.div animate={{ scale: [1, 2], opacity: [0.8, 0] }} transition={{ repeat: Infinity, duration: 2 }} style={{ position: "absolute", top: "40%", left: "55%", width: 12, height: 12, background: "#00e5ff", borderRadius: "50%", boxShadow: "0 0 20px #00e5ff" }} />
+                <div style={{ position: "absolute", top: "40%", left: "55%", width: 12, height: 12, background: "#00e5ff", borderRadius: "50%", boxShadow: "0 0 20px #00e5ff" }} />
+
+                <motion.div animate={{ scale: [1, 1.5], opacity: [0.5, 0] }} transition={{ repeat: Infinity, duration: 2, delay: 0.5 }} style={{ position: "absolute", top: "60%", left: "40%", width: 8, height: 8, background: "#00e5ff", borderRadius: "50%" }} />
+                <div style={{ position: "absolute", top: "60%", left: "40%", width: 8, height: 8, background: "#00e5ff", borderRadius: "50%" }} />
+
+                <div style={{ position: "absolute", bottom: 20, right: 30, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>Live Node Tracking Active</div>
+              </div>
             </div>
           </div>
         </section>
@@ -331,7 +369,7 @@ export default function LNB() {
             </div>
             <div>
               <h4 style={{ fontSize: 10, letterSpacing: 3, textTransform: "uppercase", color: "#00e5ff", marginBottom: 24, fontWeight: 700 }}>Security</h4>
-              {["Fraud Prevention Grid", "Secure Upload Vault", "Duo Mobile Auth", "Order Checks", "Legal Notice"].map((l, i) => (
+              {["Fraud Prevention Grid", "Secure Upload Vault", "Duo Mobile Auth", "Reorder Checks", "Legal Notice"].map((l, i) => (
                 <a key={i} href="#" style={{ display: "block", marginBottom: 12, fontSize: 14, color: "inherit", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={(e) => e.target.style.color = "#fff"} onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.4)"}>{l}</a>
               ))}
             </div>
@@ -339,16 +377,16 @@ export default function LNB() {
               <h4 style={{ fontSize: 10, letterSpacing: 3, textTransform: "uppercase", color: "#00e5ff", marginBottom: 24, fontWeight: 700 }}>Direct Line</h4>
               <p style={{ fontSize: 14, lineHeight: 2.2 }}>
                 HQ Node: <strong style={{ color: "#fff" }}>(903) 785-0701</strong><br/>
-                Breach Protocol: <strong style={{ color: "#fff" }}>1-800-545-4274</strong><br/>
-                Routing Hash: <strong style={{ color: "#fff" }}>111909870</strong><br/>
+                Report Fraud: <strong style={{ color: "#fff" }}>1-800-545-4274</strong><br/>
+                Routing Number: <strong style={{ color: "#fff" }}>111909870</strong><br/>
                 Security ID: <strong style={{ color: "#fff" }}>NMLS 480341</strong>
               </p>
             </div>
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 32, display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 24, fontSize: 11, letterSpacing: 0.5 }}>
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-              <a href="#" style={{ color: "inherit", textDecoration: "none" }}>Privacy Cipher</a>
-              <a href="#" style={{ color: "inherit", textDecoration: "none" }}>System Terms</a>
+              <a href="#" style={{ color: "inherit", textDecoration: "none" }}>Privacy Policy</a>
+              <a href="#" style={{ color: "inherit", textDecoration: "none" }}>Terms of Service</a>
               <a href="#" style={{ color: "inherit", textDecoration: "none" }}>FDIC Compliance</a>
             </div>
             <div>Member FDIC. Equal Housing Lender. © {new Date().getFullYear()} Lamar National Bank.</div>
