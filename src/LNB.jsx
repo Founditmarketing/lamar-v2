@@ -108,7 +108,7 @@ export default function LNB() {
   return (
     <div className="app-wrapper" style={{ background: "var(--navy)", color: "#fff" }}>
       {/* ═══════ HEADER (SMART LOGO SWAP) ═══════ */}
-      <header style={{
+      <header className="app-header" style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
         padding: navSolid ? "12px 0" : "24px 0",
         background: navSolid ? "rgba(9, 27, 51, 0.85)" : "transparent",
