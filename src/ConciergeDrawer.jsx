@@ -21,6 +21,7 @@ export default function ConciergeDrawer({ isOpen, onClose }) {
             }}
           />
           <motion.div
+            className="drawer-container"
             initial={{ x: '100%', opacity: 0.5 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0.5 }}
@@ -42,14 +43,14 @@ export default function ConciergeDrawer({ isOpen, onClose }) {
             }}
           >
             {/* Header */}
-            <div style={{ padding: '32px 40px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="modal-header" style={{ padding: '32px 40px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <h3 style={{ fontSize: 24, fontWeight: 500, fontFamily: "'Playfair Display', serif" }}>Digital Concierge</h3>
                 <p style={{ fontSize: 13, color: '#00e5ff', textTransform: 'uppercase', letterSpacing: 2, fontWeight: 700, marginTop: 4 }}>Priority Routing Active</p>
               </div>
               <button 
                 onClick={onClose}
-                className="hover-glow" 
+                className="hover-glow modal-btn-close" 
                 style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: '#fff', width: 44, height: 44, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
               >
                 <X size={20} />
@@ -57,7 +58,7 @@ export default function ConciergeDrawer({ isOpen, onClose }) {
             </div>
 
             {/* Chat/Form Area */}
-            <div style={{ padding: '40px', flex: 1, overflowY: 'auto' }}>
+            <div className="drawer-inner" style={{ padding: '40px', flex: 1, overflowY: 'auto' }}>
               <div style={{ display: 'flex', gap: 16, marginBottom: 32 }}>
                 <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(0,229,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00e5ff', flexShrink: 0 }}>
                   <Briefcase size={20} />

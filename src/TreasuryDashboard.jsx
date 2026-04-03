@@ -26,7 +26,7 @@ export default function TreasuryDashboard({ isOpen, onClose }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+        <div className="modal-wrapper" style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
           {/* Backdrop */}
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -55,14 +55,14 @@ export default function TreasuryDashboard({ isOpen, onClose }) {
             }}
           >
             {/* Header */}
-            <div style={{ padding: '24px 40px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)' }}>
+            <div className="modal-header" style={{ padding: '24px 40px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)' }}>
               <div>
                 <h3 style={{ fontSize: 24, fontWeight: 500, fontFamily: "'Playfair Display', serif" }}>Advanced Treasury</h3>
                 <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>Corporate Liquidity & Transaction Orchestration</p>
               </div>
               <button 
                 onClick={onClose}
-                className="hover-glow" 
+                className="hover-glow modal-btn-close" 
                 style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: '#fff', width: 44, height: 44, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
               >
                 <X size={20} />
@@ -73,7 +73,7 @@ export default function TreasuryDashboard({ isOpen, onClose }) {
             <div style={{ flex: 1, overflowY: 'auto', padding: '40px' }} className="grid-3">
               
               {/* Main Chart Span */}
-              <div style={{ gridColumn: 'span 2', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 20, padding: 24 }}>
+              <div className="dash-main-chart" style={{ gridColumn: 'span 2', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 20, padding: 24 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
                   <h4 style={{ fontSize: 16, fontWeight: 500 }}>Real-Time Liquidity</h4>
                   <div style={{ display: 'flex', gap: 12 }}>

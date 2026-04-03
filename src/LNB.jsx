@@ -189,7 +189,7 @@ export default function LNB() {
           <div className="container grid-2" style={{ alignItems: "flex-start" }}>
             
             {/* Sticky Text Side */}
-            <motion.div style={{ position: "sticky", top: "180px", paddingRight: "5%", y: yAboutText }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+            <motion.div className="sticky-desk" style={{ position: "sticky", top: "180px", paddingRight: "5%", y: yAboutText }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
               <motion.div variants={fadeInUp} style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
                 <div style={{ width: 40, height: 1, background: "#00e5ff" }} />
                 <span style={{ fontSize: 11, letterSpacing: 5, textTransform: "uppercase", color: "#00e5ff", fontWeight: 700 }}>Our Edge</span>
@@ -225,7 +225,7 @@ export default function LNB() {
 
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="bento-grid">
               {SVCS.map((s, i) => (
-                <TiltCard key={i} className="hover-lift" style={{ gridColumn: s.col, padding: "40px", background: s.highlight ? "#04101e" : "rgba(255,255,255,0.02)", border: s.highlight ? "1px solid rgba(0,229,255,0.3)" : "1px solid rgba(255,255,255,0.05)", borderRadius: 24, textDecoration: "none", color: "inherit", cursor: "pointer", position: "relative", overflow: "hidden" }}>
+                <TiltCard key={i} className="hover-lift bento-item" style={{ gridColumn: s.col, padding: "40px", background: s.highlight ? "#04101e" : "rgba(255,255,255,0.02)", border: s.highlight ? "1px solid rgba(0,229,255,0.3)" : "1px solid rgba(255,255,255,0.05)", borderRadius: 24, textDecoration: "none", color: "inherit", cursor: "pointer", position: "relative", overflow: "hidden" }}>
                   <div 
                     style={{ position: "absolute", inset: 0, zIndex: 10 }}
                     onClick={() => {
@@ -252,7 +252,7 @@ export default function LNB() {
         <section id="locations" style={{ background: "var(--navy-mid)", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
           <div className="container">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} style={{ marginBottom: 64 }}>
-              <h2 style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 500 }}>System Nodes</h2>
+              <h2 style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 500 }}>Texas Footprint</h2>
             </motion.div>
 
             <div className="grid-4">

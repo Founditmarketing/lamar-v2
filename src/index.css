@@ -38,6 +38,8 @@ body {
 h1, h2, h3, h4, .serif {
   font-family: 'Playfair Display', serif;
 }
+h1 { font-size: clamp(38px, 8vw, 84px) !important; }
+h2 { font-size: clamp(32px, 6vw, 56px) !important; }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
@@ -139,9 +141,20 @@ section {
 @media (max-width: 900px) {
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Mobile Overrides (iPhone / Android) */
 @media (max-width: 768px) {
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
-  .bento-card { grid-column: span 12 !important; }
+  section { padding: 60px 0 !important; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr !important; }
+  .bento-item, .dash-main-chart { grid-column: span 12 !important; }
+  .sticky-desk { position: relative !important; top: auto !important; margin-bottom: 40px; }
+  
+  /* Overlays */
+  .modal-wrapper { padding: 20px !important; }
+  .modal-header { padding: 20px !important; flex-direction: column !important; align-items: flex-start !important; gap: 16px; }
+  .modal-btn-close { position: absolute; top: 16px; right: 16px; }
+  .drawer-container { max-width: 100% !important; }
+  .drawer-inner { padding: 24px !important; }
 }
 
 /* Mobile Nav Toggles */
