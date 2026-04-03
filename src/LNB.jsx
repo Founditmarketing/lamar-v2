@@ -87,6 +87,7 @@ export default function LNB() {
   const [menu, setMenu] = useState(false);
   const [isConciergeOpen, setIsConciergeOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
+  const [activeLoc, setActiveLoc] = useState(LOCS[0]);
   const { scrollYProgress } = useScroll();
   const yHeroImg = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const yAboutText = useTransform(scrollYProgress, [0.2, 0.5], [50, -50]);
@@ -141,11 +142,26 @@ export default function LNB() {
             </a>
           </nav>
 
-          <button className="mobile-toggle" onClick={() => setMenu(!menu)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff" }}>
-            <Menu size={28} />
+          <button className="mobile-toggle" onClick={() => setMenu(!menu)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", zIndex: 9999, position: "relative" }}>
+            {menu ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </header>
+
+      <AnimatePresence>
+        {menu && (
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} style={{ position: "fixed", inset: 0, background: "rgba(4, 11, 20, 0.98)", backdropFilter: "blur(20px)", zIndex: 900, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: 32 }}>
+            {["Services", "Approach", "Locations", "Stories", "Contact"].map((l) => (
+              <button key={l} onClick={() => go(l.toLowerCase())} style={{ background: "none", border: "none", color: "#fff", fontSize: 24, fontWeight: 500, fontFamily: "'Playfair Display', serif" }}>
+                {l}
+              </button>
+            ))}
+            <button onClick={() => { setMenu(false); setIsConciergeOpen(true); }} className="hover-glow" style={{ padding: "16px 32px", background: "#00e5ff", color: "var(--navy)", fontSize: 14, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", border: "none", borderRadius: 12, marginTop: 24 }}>
+              Digital Concierge
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <main style={{ position: "relative" }}>
         {/* Ambient Glowing Orbs */}
@@ -154,7 +170,7 @@ export default function LNB() {
         <div style={{ position: "absolute", bottom: "10%", left: "10%", width: "60vw", height: "60vw", background: "radial-gradient(circle, rgba(0, 229, 255, 0.05) 0%, transparent 60%)", borderRadius: "50%", pointerEvents: "none" }} />
         
         {/* ═══════ HERO (FINTECH EDGE) ═══════ */}
-        <section id="home" style={{ paddingTop: "160px", paddingBottom: "100px", minHeight: "100vh", display: "flex", alignItems: "center", position: "relative", overflow: "hidden" }}>
+        <section id="home" style={{ paddingTop: "160px", paddingBottom: "100px", minHeight: "85vh", display: "flex", alignItems: "center", position: "relative", overflow: "hidden" }}>
           <div style={{ position: "absolute", inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '40px 40px', opacity: 0.5 }} />
           
           <div className="container grid-2" style={{ alignItems: "center", position: "relative", zIndex: 2 }}>
@@ -278,33 +294,45 @@ export default function LNB() {
               {/* Left Side: Locations Scroller */}
               <div style={{ padding: "0 5% 5% 5%", maxHeight: "600px", overflowY: "auto", display: "flex", flexDirection: "column", gap: 16, scrollbarWidth: "thin" }}>
                 {LOCS.map((l, i) => (
-                  <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} transition={{ delay: i * 0.05 }} key={i} className="hover-lift" style={{ padding: "24px 32px", borderRadius: 20, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", color: "#fff", cursor: "pointer", position: "relative", overflow: "hidden" }}>
-                    <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 4, background: l.flag ? "#00e5ff" : "transparent" }} />
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-                      <h3 style={{ fontSize: 20, fontWeight: 500 }}>{l.city}</h3>
+                  <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} transition={{ delay: i * 0.05 }} key={i} className={`hover-lift bento-item`} onClick={() => setActiveLoc(l)} style={{ padding: "24px 32px", borderRadius: 20, background: activeLoc.city === l.city ? "rgba(0,229,255,0.05)" : "rgba(255,255,255,0.02)", border: activeLoc.city === l.city ? "1px solid rgba(0,229,255,0.3)" : "1px solid rgba(255,255,255,0.05)", color: "#fff", cursor: "pointer", position: "relative", overflow: "hidden", transition: "all 0.3s ease" }}>
+                    <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 4, background: l.flag || activeLoc.city === l.city ? "#00e5ff" : "transparent", transition: "all 0.3s ease" }} />
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <h3 style={{ fontSize: 20, fontWeight: 500, color: activeLoc.city === l.city ? "#00e5ff" : "#fff", transition: "color 0.3s" }}>{l.city}</h3>
                       {l.flag && <span style={{ fontSize: 10, letterSpacing: 1, textTransform: "uppercase", background: "rgba(0, 229, 255, 0.1)", color: "#00e5ff", padding: "4px 10px", borderRadius: 20, fontWeight: 700 }}>Flagship</span>}
                       {l.lpo && <span style={{ fontSize: 10, letterSpacing: 1, textTransform: "uppercase", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)", padding: "4px 10px", borderRadius: 20, fontWeight: 700 }}>LPO</span>}
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 12, color: "#fff", marginBottom: 12 }}>
-                      <Phone size={16} strokeWidth={1.5} color="rgba(255,255,255,0.5)" />
-                      <a href={`tel:${l.ph.replace(/\D/g,"")}`} style={{ fontSize: 15, textDecoration: "none", color: "inherit", fontWeight: 600 }}>{l.ph}</a>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 12, color: "rgba(255,255,255,0.6)" }}>
-                      <MapPin size={16} strokeWidth={1.5} color="rgba(255,255,255,0.5)" />
-                      <a href={`https://maps.google.com/?q=${encodeURIComponent(l.addr + ", " + l.city + " " + l.st + " " + l.zip)}`} target="_blank" rel="noreferrer" style={{ fontSize: 14, textDecoration: "none", color: "inherit", flex: 1 }}>{l.addr}, {l.city}, {l.st} {l.zip}</a>
                     </div>
                   </motion.div>
                 ))}
               </div>
 
               {/* Right Side: Map Visualizer */}
-              <div style={{ position: "relative", minHeight: "400px", background: "rgba(0,0,0,0.2)", borderRadius: "32px 0 0 32px", border: "1px solid rgba(255,255,255,0.05)", borderRight: "none", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ position: "relative", minHeight: "400px", background: "rgba(0,0,0,0.2)", borderRadius: "32px 0 0 32px", border: "1px solid rgba(255,255,255,0.05)", borderRight: "none", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px" }}>
                 {/* Abstract Line Grid Background */}
                 <div style={{ position: "absolute", inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '40px 40px', opacity: 0.2 }} />
                 
                 {/* High Tech Texas Map Integration */}
-                <img src="/texas_map.png" alt="Texas Operations Map" style={{ width: "95%", height: "95%", objectFit: "contain", opacity: 0.9, pointerEvents: "none", mixBlendMode: 'screen' }} />
+                <img src="/texas_map.png" alt="Texas Operations Map" style={{ position: "absolute", width: "95%", height: "95%", objectFit: "contain", opacity: 0.9, pointerEvents: "none", mixBlendMode: 'screen' }} />
 
+                {/* State GUI Panel */}
+                <AnimatePresence mode="wait">
+                   <motion.div key={activeLoc.city} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }} style={{ position: "relative", zIndex: 10, background: "rgba(9, 27, 51, 0.6)", backdropFilter: "blur(20px)", padding: 32, borderRadius: 24, border: "1px solid rgba(0, 229, 255, 0.3)", boxShadow: "0 20px 40px rgba(0,0,0,0.5)", maxWidth: 320, width: "100%" }}>
+                     <h3 style={{ fontSize: 24, fontWeight: 500, color: "#fff", marginBottom: 8, fontFamily: "'Playfair Display', serif" }}>{activeLoc.city} Node</h3>
+                     <p style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: 2, color: "#00e5ff", fontWeight: 700, marginBottom: 24 }}>System Active</p>
+                     
+                     <div style={{ display: "flex", alignItems: "center", gap: 12, color: "#fff", marginBottom: 12 }}>
+                        <Phone size={16} strokeWidth={1.5} color="rgba(255,255,255,0.5)" />
+                        <a href={`tel:${activeLoc.ph.replace(/\D/g,"")}`} style={{ fontSize: 15, textDecoration: "none", color: "inherit", fontWeight: 600 }}>{activeLoc.ph}</a>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "flex-start", gap: 12, color: "rgba(255,255,255,0.6)", marginBottom: 24 }}>
+                        <MapPin size={16} strokeWidth={1.5} color="rgba(255,255,255,0.5)" style={{ marginTop: 4 }} />
+                        <span style={{ fontSize: 14, lineHeight: 1.5 }}>{activeLoc.addr}<br/>{activeLoc.city}, {activeLoc.st} {activeLoc.zip}</span>
+                      </div>
+                      <a href={`https://maps.google.com/?q=${encodeURIComponent(activeLoc.addr + ", " + activeLoc.city + " " + activeLoc.st + " " + activeLoc.zip)}`} target="_blank" rel="noreferrer" className="hover-glow" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 8, padding: "12px", background: "rgba(0, 229, 255, 0.1)", color: "#00e5ff", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, textDecoration: "none", borderRadius: 8, border: "1px solid rgba(0, 229, 255, 0.2)" }}>
+                        Launch Route <ArrowRight size={14} />
+                      </a>
+                   </motion.div>
+                </AnimatePresence>
+                
                 {/* Simulated Radar Blips */}
                 <motion.div animate={{ scale: [1, 2], opacity: [0.8, 0] }} transition={{ repeat: Infinity, duration: 2 }} style={{ position: "absolute", top: "40%", left: "55%", width: 12, height: 12, background: "#00e5ff", borderRadius: "50%", boxShadow: "0 0 20px #00e5ff" }} />
                 <div style={{ position: "absolute", top: "40%", left: "55%", width: 12, height: 12, background: "#00e5ff", borderRadius: "50%", boxShadow: "0 0 20px #00e5ff" }} />
