@@ -119,11 +119,11 @@ export default function LNB() {
           <button onClick={() => go("home")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", height: 40, width: 200, justifyContent: "flex-start" }}>
             {/* Dynamic Logo Rendering */}
             <img 
-              src={navSolid ? LOGO_MARK : LOGO} 
+              src={LOGO} 
               alt="Lamar National Bank" 
               style={{ 
                 height: navSolid ? 28 : 36, 
-                transition: "opacity 0.3s ease",
+                transition: "all 0.3s ease",
                 filter: "brightness(0) invert(1)",
                 objectFit: "contain"
               }} 
@@ -297,10 +297,8 @@ export default function LNB() {
                 {/* Abstract Line Grid Background */}
                 <div style={{ position: "absolute", inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '40px 40px', opacity: 0.2 }} />
                 
-                {/* Stylized Texas Map Silhouette */}
-                <svg viewBox="0 0 400 400" style={{ width: "80%", height: "80%", opacity: 0.1, pointerEvents: "none" }}>
-                  <path d="M 200,50 L 300,100 L 350,200 L 300,350 L 150,380 L 50,250 L 50,150 Z" fill="#00e5ff" />
-                </svg>
+                {/* High Tech Texas Map Integration */}
+                <img src="/texas_map.png" alt="Texas Operations Map" style={{ width: "95%", height: "95%", objectFit: "contain", opacity: 0.9, pointerEvents: "none", mixBlendMode: 'screen' }} />
 
                 {/* Simulated Radar Blips */}
                 <motion.div animate={{ scale: [1, 2], opacity: [0.8, 0] }} transition={{ repeat: Infinity, duration: 2 }} style={{ position: "absolute", top: "40%", left: "55%", width: 12, height: 12, background: "#00e5ff", borderRadius: "50%", boxShadow: "0 0 20px #00e5ff" }} />
