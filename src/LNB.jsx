@@ -89,6 +89,10 @@ export default function LNB() {
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
   const [activeLoc, setActiveLoc] = useState(LOCS[0]);
   const { scrollYProgress } = useScroll();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const yHeroImg = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const yAboutText = useTransform(scrollYProgress, [0.2, 0.5], [50, -50]);
 

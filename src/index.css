@@ -147,7 +147,7 @@ section {
   section { padding: 60px 0 !important; }
   
   /* Hero & Visual Rhythm Resets */
-  #home { padding-top: 120px !important; padding-bottom: 60px !important; min-height: auto !important; }
+  #home { padding-top: 100px !important; padding-bottom: 20px !important; min-height: auto !important; align-items: flex-start !important; }
   .hero-img-wrap { min-height: 300px !important; }
   #services { margin-top: 0 !important; }
 
