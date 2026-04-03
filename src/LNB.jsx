@@ -173,12 +173,12 @@ export default function LNB() {
               </motion.p>
               
               <motion.div variants={fadeInUp} style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-                <a href="#" className="hover-glow" style={{ padding: "18px 40px", background: "#00e5ff", color: "var(--navy)", fontWeight: 700, fontSize: 14, letterSpacing: 1, textTransform: "uppercase", textDecoration: "none", borderRadius: 12, boxShadow: "0 0 20px rgba(0, 229, 255, 0.2)" }}>
+                <button onClick={() => setIsConciergeOpen(true)} className="hover-glow" style={{ cursor: "pointer", border: "none", padding: "18px 40px", background: "#00e5ff", color: "var(--navy)", fontWeight: 700, fontSize: 14, letterSpacing: 1, textTransform: "uppercase", textDecoration: "none", borderRadius: 12, boxShadow: "0 0 20px rgba(0, 229, 255, 0.2)" }}>
                   Open an Account
-                </a>
-                <a href="#" className="hover-lift" style={{ padding: "16px 38px", background: "rgba(255,255,255,0.03)", color: "#fff", fontWeight: 600, fontSize: 14, letterSpacing: 1, textTransform: "uppercase", textDecoration: "none", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 12, backdropFilter: "blur(10px)" }}>
+                </button>
+                <button onClick={() => setIsConciergeOpen(true)} className="hover-lift" style={{ cursor: "pointer", padding: "16px 38px", background: "rgba(255,255,255,0.03)", color: "#fff", fontWeight: 600, fontSize: 14, letterSpacing: 1, textTransform: "uppercase", textDecoration: "none", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 12, backdropFilter: "blur(10px)" }}>
                   Apply for a Loan
-                </a>
+                </button>
               </motion.div>
             </motion.div>
 
@@ -208,9 +208,9 @@ export default function LNB() {
               <motion.p variants={fadeInUp} style={{ fontSize: 18, lineHeight: 1.8, color: "rgba(255,255,255,0.6)", marginBottom: 40 }}>
                 We removed the endless committees and the corporate red tape. The result? Execution speed that outpaces megabanks, with a partnership mentality that outlasts market cycles.
               </motion.p>
-              <motion.a variants={fadeInUp} href="#" className="hover-glow" style={{ display: "inline-flex", alignItems: "center", gap: 12, color: "#00e5ff", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, textDecoration: "none" }}>
+              <motion.button variants={fadeInUp} onClick={() => setIsConciergeOpen(true)} className="hover-glow" style={{ cursor: "pointer", padding: 0, background: "none", border: "none", display: "inline-flex", alignItems: "center", gap: 12, color: "#00e5ff", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: 1, textDecoration: "none" }}>
                 Meet the Leadership <ArrowRight size={18} />
-              </motion.a>
+              </motion.button>
             </motion.div>
 
             {/* Scrolling Image Side */}
@@ -234,8 +234,8 @@ export default function LNB() {
                   <div 
                     style={{ position: "absolute", inset: 0, zIndex: 10 }}
                     onClick={() => {
-                      if (s.id === 'concierge') setIsConciergeOpen(true);
-                      else if (s.id === 'treasury') setIsDashboardOpen(true);
+                      if (s.id === 'treasury') setIsDashboardOpen(true);
+                      else setIsConciergeOpen(true);
                     }}
                   />
                   {s.highlight && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, transparent, #00e5ff, transparent)" }} />}
@@ -285,8 +285,13 @@ export default function LNB() {
                       {l.flag && <span style={{ fontSize: 10, letterSpacing: 1, textTransform: "uppercase", background: "rgba(0, 229, 255, 0.1)", color: "#00e5ff", padding: "4px 10px", borderRadius: 20, fontWeight: 700 }}>Flagship</span>}
                       {l.lpo && <span style={{ fontSize: 10, letterSpacing: 1, textTransform: "uppercase", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)", padding: "4px 10px", borderRadius: 20, fontWeight: 700 }}>LPO</span>}
                     </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, color: "#fff", marginBottom: 12 }}>
+                      <Phone size={16} strokeWidth={1.5} color="rgba(255,255,255,0.5)" />
+                      <a href={`tel:${l.ph.replace(/\D/g,"")}`} style={{ fontSize: 15, textDecoration: "none", color: "inherit", fontWeight: 600 }}>{l.ph}</a>
+                    </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 12, color: "rgba(255,255,255,0.6)" }}>
-                      <p style={{ fontSize: 14 }}>{l.addr}</p>
+                      <MapPin size={16} strokeWidth={1.5} color="rgba(255,255,255,0.5)" />
+                      <a href={`https://maps.google.com/?q=${encodeURIComponent(l.addr + ", " + l.city + " " + l.st + " " + l.zip)}`} target="_blank" rel="noreferrer" style={{ fontSize: 14, textDecoration: "none", color: "inherit", flex: 1 }}>{l.addr}, {l.city}, {l.st} {l.zip}</a>
                     </div>
                   </motion.div>
                 ))}
