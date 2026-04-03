@@ -145,6 +145,12 @@ section {
 /* Mobile Overrides (iPhone / Android) */
 @media (max-width: 768px) {
   section { padding: 60px 0 !important; }
+  
+  /* Hero & Visual Rhythm Resets */
+  #home { padding-top: 120px !important; padding-bottom: 60px !important; min-height: auto !important; }
+  .hero-img-wrap { min-height: 300px !important; }
+  #services { margin-top: 0 !important; }
+
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr !important; }
   .bento-item, .dash-main-chart { grid-column: span 12 !important; }
   .sticky-desk { position: relative !important; top: auto !important; margin-bottom: 40px; }

@@ -198,7 +198,7 @@ export default function LNB() {
               </motion.div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.2, ease: "easeOut" }} style={{ position: "relative", height: "100%", minHeight: "550px", borderRadius: 24, overflow: "hidden", border: "1px solid rgba(255,255,255,0.08)" }}>
+            <motion.div className="hero-img-wrap" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.2, ease: "easeOut" }} style={{ position: "relative", height: "100%", minHeight: "550px", borderRadius: 24, overflow: "hidden", border: "1px solid rgba(255,255,255,0.08)" }}>
               <motion.img src={IMG_HERO} alt="Modern Texas Bank Exterior" style={{ width: "100%", height: "100%", objectFit: "cover", y: yHeroImg, scale: 1.1 }} />
               <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "40%", background: "linear-gradient(to top, var(--navy), transparent)" }} />
             </motion.div>
