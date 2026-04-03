@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue } from "framer-motion";
 import { MapPin, Phone, ArrowRight, ShieldCheck, PieChart, Briefcase, Home, Smartphone, ChevronRight, Menu, X, KeySquare } from "lucide-react";
 
+import ConciergeDrawer from "./ConciergeDrawer";
+import TreasuryDashboard from "./TreasuryDashboard";
+
 /* ═══════════════════════════════════════════════
    LAMAR NATIONAL BANK — WORLD CLASS v5 (Fintech Edge)
    Stripe-level Interactions · Fintech Tone · Paris Roots
@@ -30,12 +33,12 @@ const TESTS = [
 ];
 
 const SVCS = [
-  { title: "Personal Wealth", desc: "Private banking architecture designed around liquidity and long-term asset growth.", link: "#", icon: ShieldCheck, col: "span 4" },
-  { title: "Business & Enterprise", desc: "Scalable commercial solutions with dedicated market presidents who understand capital markets.", link: "#", icon: Briefcase, col: "span 8" },
-  { title: "Commercial Real Estate", desc: "Streamlined underwriting and local decision-making for faster acquisitions and development.", link: "#", icon: Home, col: "span 6" },
-  { title: "Advanced Treasury", desc: "Corporate-grade liquidity management, fraud prevention, and real-time reconciliation.", link: "#", icon: PieChart, col: "span 6" },
-  { title: "1031 Exchange", desc: "Specialized, tax-deferred exchange mechanics for sophisticated real estate investors.", link: "#", icon: KeySquare, col: "span 5" },
-  { title: "The Digital Concierge", desc: "Direct priority routing to your market president. Skip the wait. Talk to decision-makers.", link: "#", icon: Smartphone, col: "span 7", highlight: true },
+  { id: "wealth", title: "Personal Wealth", desc: "Private banking architecture designed around liquidity and long-term asset growth.", icon: ShieldCheck, col: "span 4" },
+  { id: "business", title: "Business & Enterprise", desc: "Scalable commercial solutions with dedicated market presidents who understand capital markets.", icon: Briefcase, col: "span 8" },
+  { id: "cre", title: "Commercial Real Estate", desc: "Streamlined underwriting and local decision-making for faster acquisitions and development.", icon: Home, col: "span 6" },
+  { id: "treasury", title: "Advanced Treasury", desc: "Corporate-grade liquidity management, fraud prevention, and real-time reconciliation.", icon: PieChart, col: "span 6" },
+  { id: "1031", title: "1031 Exchange", desc: "Specialized, tax-deferred exchange mechanics for sophisticated real estate investors.", icon: KeySquare, col: "span 5" },
+  { id: "concierge", title: "The Digital Concierge", desc: "Direct priority routing to your market president. Skip the wait. Talk to decision-makers.", icon: Smartphone, col: "span 7", highlight: true },
 ];
 
 // Motion Variants
@@ -82,6 +85,8 @@ const TiltCard = ({ children, className, style }) => {
 export default function LNB() {
   const [sY, setSY] = useState(0);
   const [menu, setMenu] = useState(false);
+  const [isConciergeOpen, setIsConciergeOpen] = useState(false);
+  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const yHeroImg = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const yAboutText = useTransform(scrollYProgress, [0.2, 0.5], [50, -50]);
@@ -221,6 +226,13 @@ export default function LNB() {
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="bento-grid">
               {SVCS.map((s, i) => (
                 <TiltCard key={i} className="hover-lift" style={{ gridColumn: s.col, padding: "40px", background: s.highlight ? "#04101e" : "rgba(255,255,255,0.02)", border: s.highlight ? "1px solid rgba(0,229,255,0.3)" : "1px solid rgba(255,255,255,0.05)", borderRadius: 24, textDecoration: "none", color: "inherit", cursor: "pointer", position: "relative", overflow: "hidden" }}>
+                  <div 
+                    style={{ position: "absolute", inset: 0, zIndex: 10 }}
+                    onClick={() => {
+                      if (s.id === 'concierge') setIsConciergeOpen(true);
+                      else if (s.id === 'treasury') setIsDashboardOpen(true);
+                    }}
+                  />
                   {s.highlight && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, transparent, #00e5ff, transparent)" }} />}
                   <div style={{ width: 56, height: 56, borderRadius: 16, background: s.highlight ? "rgba(0,229,255,0.1)" : "rgba(255,255,255,0.04)", display: "flex", alignItems: "center", justifyContent: "center", color: s.highlight ? "#00e5ff" : "#fff", marginBottom: 24 }}>
                     <s.icon size={28} strokeWidth={1.5} />
@@ -265,34 +277,40 @@ export default function LNB() {
           </div>
         </section>
 
-        {/* ═══════ CONTACT FORM ═══════ */}
-        <section id="contact" style={{ background: "var(--navy)", position: "relative" }}>
-          <div className="container" style={{ maxWidth: 700, margin: "0 auto" }}>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} style={{ textAlign: "center", marginBottom: 64 }}>
-              <h2 style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 500, marginBottom: 16 }}>Initiate Contact</h2>
-              <p style={{ fontSize: 18, color: "rgba(255,255,255,0.6)" }}>Bypass the bureaucracy. Speak directly to our leadership suite.</p>
+        {/* ═══════ INTERACTIVE CTA (Replaces old ugly form) ═══════ */}
+        <section id="contact" style={{ background: "var(--navy)", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+          <div className="container" style={{ maxWidth: 900, margin: "0 auto" }}>
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} 
+              className="hover-glow hover-lift"
+              onClick={() => setIsConciergeOpen(true)}
+              style={{ 
+                background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(0, 229, 255, 0.05) 100%)", 
+                padding: "80px 48px", 
+                borderRadius: 40, 
+                border: "1px solid rgba(0, 229, 255, 0.2)", 
+                backdropFilter: "blur(20px)",
+                textAlign: "center",
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                overflow: "hidden"
+              }}>
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(90deg, transparent, #00e5ff, transparent)" }} />
+              
+              <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(0,229,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "#00e5ff", marginBottom: 32 }}>
+                <Smartphone size={36} />
+              </div>
+              <h2 style={{ fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 500, marginBottom: 16 }}>Bypass the bureaucracy.</h2>
+              <p style={{ fontSize: 18, color: "rgba(255,255,255,0.6)", marginBottom: 40, maxWidth: 500, lineHeight: 1.6 }}>
+                Stop filling out generic contact forms. Initialize the Digital Concierge to be routed directly to a local market president instantly.
+              </p>
+              <div style={{ padding: "20px 48px", background: "#00e5ff", color: "var(--navy)", borderRadius: 16, fontWeight: 700, fontSize: 15, letterSpacing: 1.5, textTransform: "uppercase", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 0 30px rgba(0, 229, 255, 0.3)" }}>
+                Start Concierge Routing <ArrowRight size={20} />
+              </div>
             </motion.div>
-
-            <motion.form initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} 
-              onSubmit={(e) => { e.preventDefault(); alert("System encrypted and ready for processing."); }} 
-              style={{ background: "rgba(255,255,255,0.02)", padding: "48px", borderRadius: 24, border: "1px solid rgba(255,255,255,0.08)", backdropFilter: "blur(20px)" }}>
-              <div className="grid-2" style={{ gap: 20, marginBottom: 20 }}>
-                <input required className="form-input" style={{ background: "rgba(0,0,0,0.2)" }} placeholder="First Name *" />
-                <input required className="form-input" style={{ background: "rgba(0,0,0,0.2)" }} placeholder="Last Name *" />
-              </div>
-              <div className="grid-2" style={{ gap: 20, marginBottom: 20 }}>
-                <input required type="email" className="form-input" style={{ background: "rgba(0,0,0,0.2)" }} placeholder="Business Email *" />
-                <input required type="tel" className="form-input" style={{ background: "rgba(0,0,0,0.2)" }} placeholder="Direct Line *" />
-              </div>
-              <select required className="form-input" style={{ marginBottom: 20, appearance: "none", background: "rgba(0,0,0,0.2)" }}>
-                <option value="" disabled selected>Capital Objective *</option>
-                {["Commercial Scaling", "Private Wealth Structuring", "Real Estate Acquisition (CRE)", "1031 Exchange Processing", "Other"].map((o, i) => <option key={i} value={o}>{o}</option>)}
-              </select>
-              <textarea className="form-input" rows={4} placeholder="Brief summary of requirements... (Optional)" style={{ marginBottom: 32, resize: "vertical", background: "rgba(0,0,0,0.2)" }} />
-              <button type="submit" className="hover-glow" style={{ width: "100%", padding: "20px", background: "#00e5ff", color: "var(--navy)", border: "none", borderRadius: 12, fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", cursor: "pointer", transition: "all 0.3s" }}>
-                Submit Secure Query
-              </button>
-            </motion.form>
           </div>
         </section>
       </main>
@@ -302,7 +320,7 @@ export default function LNB() {
         <div className="container">
           <div className="grid-4" style={{ marginBottom: 64 }}>
             <div>
-              <img src={LOGO_MARK} alt="LNB Vault" style={{ height: 40, filter: "brightness(0) invert(1)", marginBottom: 24, opacity: 0.8 }} />
+              <img src={LOGO} alt="LNB Vault" style={{ height: 48, filter: "brightness(0) invert(1)", marginBottom: 24, opacity: 0.9, objectFit: "contain" }} />
               <p style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 24 }}>High-precision capital deployment masked as Texas hospitality. Since 1981.</p>
             </div>
             <div>
@@ -337,6 +355,10 @@ export default function LNB() {
           </div>
         </div>
       </footer>
+
+      {/* ═══════ OVERLAYS ═══════ */}
+      <ConciergeDrawer isOpen={isConciergeOpen} onClose={() => setIsConciergeOpen(false)} />
+      <TreasuryDashboard isOpen={isDashboardOpen} onClose={() => setIsDashboardOpen(false)} />
     </div>
   );
 }
